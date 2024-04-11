@@ -37,6 +37,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float CaptureTime;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CaptureZone | Percentage")
+	float percentage;
 
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, 
@@ -50,8 +53,6 @@ protected:
 
 
 	float timeSinceTick;
-
-	float percentage;
 
 	bool capturing;
 	

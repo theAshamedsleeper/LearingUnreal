@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
+#include "Components/PointLightComponent.h"
 #include "UseableInterface.h"
 #include "TurnLightOnOff.generated.h"
 
@@ -17,8 +18,8 @@ UCLASS()
 class LEARINGUNREAL_API ATurnLightOnOff : public AActor, public IUseableInterface
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ATurnLightOnOff();
 
@@ -31,6 +32,10 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* SwitchMesh;
+	
+	UPROPERTY(VisibleAnywhere)
+	UPointLightComponent* LightSoruce;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float TurnOnTime;
@@ -53,7 +58,7 @@ protected:
 
 	ELightState LightState;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	virtual void Use_Implementation() override;

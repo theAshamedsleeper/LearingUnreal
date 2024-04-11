@@ -6,15 +6,18 @@
 // Sets default values
 ATurnLightOnOff::ATurnLightOnOff()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 
 	SwitchMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LightSwitch"));
+	
+	LightSoruce = CreateDefaultSubobject<UPointLightComponent>(TEXT("LightSource"));
 
 	RootComponent = CollisionComponent;
 	SwitchMesh->SetupAttachment(RootComponent);
+	LightSoruce->SetupAttachment(RootComponent);
 	LightState = ELightState::OFF;
 }
 
@@ -39,7 +42,6 @@ void ATurnLightOnOff::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* 
 void ATurnLightOnOff::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	Super::Tick(DeltaTime);
 	if (on)
 	{
 		timeSinceTick += DeltaTime;
@@ -51,10 +53,13 @@ void ATurnLightOnOff::Tick(float DeltaTime)
 		if (LightState == ELightState::OFF)
 		{
 			newYRotation = FMath::Lerp(45.0f, -45.0f, percentage / 100.0f);
+			LightSoruce->SetIntensity(0.0f);
+
 		}
 		else if (LightState == ELightState::ON)
 		{
 			newYRotation = FMath::Lerp(-45.0f, 45.0f, percentage / 100.0f);
+			LightSoruce->SetIntensity(5000.0f);
 		}
 
 		FRotator  newRotation = SwitchMesh->GetRelativeRotation();
@@ -76,4 +81,3 @@ void ATurnLightOnOff::Tick(float DeltaTime)
 void ATurnLightOnOff::Use_Implementation() {
 	on = true;
 }
-
